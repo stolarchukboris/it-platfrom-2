@@ -1,26 +1,21 @@
-# it-platfrom-2
+# Использование
 
-Стек: Node.js, TypeScript, Express.js, MySQL (или PostgreSQL)
+1. Клонировать репозиторий в желаемое место:
+```
+git clone https://github.com/BVFBVF/it-platfrom-2.git
+```
 
-## Задача — один эндпоинт
+2. Создать и заполнить файл .env:
+```
+cp .env.example .env
+```
 
-Написать простой REST API для сотрудников.
+3. Установить зависимости:
+```
+pnpm i
+```
 
-### Что нужно:
-
-Модель Employee в БД:
-- id
-- name
-- status (active / blocked / finished)
-- readiness_score (число от 0 до 100)
-- created_at
-
-Эндпоинты:
-- GET /employees — вернуть список всех сотрудников
-- POST /employees — создать нового сотрудника
-- PATCH /employees/:id — обновить статус или score
-
-Требования:
-- TypeScript, без any
-- Валидация входных данных (хотя бы базовая)
-- README с инструкцией как запустить
+4. Запустить сервер:
+```
+pnpm start
+```
