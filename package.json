@@ -1,0 +1,32 @@
+{
+  "name": "employees-api",
+  "version": "0.0.1",
+  "description": "Employees API.",
+  "main": "./build/index.js",
+  "module": "./build/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc && echo Сборка прошла успешно.",
+    "start": "pnpm run build && node ."
+  },
+  "keywords": [],
+  "author": "stolarchukboris",
+  "license": "UNLICENSED",
+  "packageManager": "pnpm@11.9.0",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "knex": "^3.3.0",
+    "mysql2": "^3.22.5",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10"
+  },
+  "peerDependencies": {
+    "typescript": "^6.0.3"
+  }
+}

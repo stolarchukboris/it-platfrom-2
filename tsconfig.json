@@ -1,0 +1,23 @@
+{
+	"compilerOptions": {
+		"target": "esnext",
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"lib": [
+			"ESNext"
+		],
+		"outDir": "./build",
+		"rootDir": "./src",
+		"sourceMap": true,
+		"strict": true,
+		"noUncheckedIndexedAccess": true,
+		"noFallthroughCasesInSwitch": true,
+		"verbatimModuleSyntax": true,
+		"noImplicitOverride": true,
+		"exactOptionalPropertyTypes": true,
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"erasableSyntaxOnly": true
+	},
+	"include": ["src"]
+}
