@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import type { AuthMeGetOutputObjectDto } from "../../types/zod/auth.js";
+import type { AuthMeGetOutputObjectDto } from "../../schemas/auth.js";
 import app from '../../index.js';
 
 export default async function (req: Request, res: Response) {

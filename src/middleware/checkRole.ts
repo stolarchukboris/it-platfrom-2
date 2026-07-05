@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import type { UserRole } from "../types/express.js";
-import { rolesOrdered } from "../constants/userRoles.js";
+import { rolesOrdered } from "../constants.js";
 
 export default function (minRole: UserRole) {
 	return function (req: Request, res: Response, next: NextFunction) {

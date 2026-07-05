@@ -2,6 +2,7 @@ import express, { type Express } from 'express';
 import knex, { type Knex } from 'knex';
 import employeesRoute from './routes/employees.js';
 import authRoute from './routes/auth.js';
+import tasksRoute from './routes/tasks.js';
 import errorHandler from './middleware/errorHandler.js';
 import dotenv from 'dotenv';
 
@@ -39,6 +40,7 @@ class App {
 
 		this.app.use('/employees', employeesRoute);
 		this.app.use('/auth', authRoute);
+		this.app.use('/tasks', tasksRoute);
 
 		this.app.use(errorHandler);
 

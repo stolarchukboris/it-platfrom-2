@@ -1,4 +1,4 @@
-import * as z from "zod";
+import z, { object } from "zod";
 import type { Request, Response, NextFunction } from "express";
 
 export default function (schemas: {
@@ -9,7 +9,13 @@ export default function (schemas: {
 	return function (req: Request, res: Response, next: NextFunction) {
 		try {
 			if (schemas.body) req.body = schemas.body.parse(req.body);
-			if (schemas.query) req.query = schemas.query.parse(req.query) as any;
+			if (schemas.query) {
+				const validated = schemas.query.parse(req.query);
+
+				Object.keys(req.query).forEach(key => delete (req.query)[key]);
+
+				Object.assign(req.query, validated);
+			}
 			if (schemas.params) req.params = schemas.params.parse(req.params) as any;
 
 			next();

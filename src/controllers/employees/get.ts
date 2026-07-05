@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import app from "../../index.js";
-import type { EmployeesGetOutputObjectDto } from "../../types/zod/employees.js";
+import type { EmployeesGetOutputObjectDto } from "../../schemas/employees.js";
 
 export default async function (req: Request, res: Response) {
 	const employees = await app.database<EmployeesGetOutputObjectDto>('employees').select('*');

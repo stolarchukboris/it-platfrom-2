@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import type { AuthLoginPostInputBodyObjectDto, AuthMeGetOutputObjectDto } from "../../types/zod/auth.js";
+import type { AuthLoginPostInputBodyObjectDto, AuthMeGetOutputObjectDto } from "../../schemas/auth.js";
 import app from '../../index.js';
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";

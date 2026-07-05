@@ -14,6 +14,6 @@ export default function (req: Request, res: Response, next: NextFunction) {
 
 		next();
 	} catch (e) {
-		res.status(401).json({ success: false, error: 'Неверный или просроченный токен.'});
+		res.status(401).json({ success: false, error: 'Неверный или просроченный токен.' });
 	}
 }

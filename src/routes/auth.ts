@@ -1,7 +1,7 @@
 import type { Router } from "express";
 import express from "express";
 import zodInputValidator from "../middleware/zodInputValidator.js";
-import { authLoginPostInputBodyObjectSchema, authRegisterPostInputBodyObjectSchema } from "../types/zod/auth.js";
+import { authLoginPostInputBodyObjectSchema, authRegisterPostInputBodyObjectSchema } from "../schemas/auth.js";
 import postRegister from "../controllers/auth/postRegister.js";
 import postLogin from "../controllers/auth/postLogin.js";
 import checkAuth from "../middleware/checkAuth.js";

@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import type { AuthMeGetOutputObjectDto, AuthRegisterPostInputBodyObjectDto } from "../../types/zod/auth.js";
+import type { AuthMeGetOutputObjectDto, AuthRegisterPostInputBodyObjectDto } from "../../schemas/auth.js";
 import app from '../../index.js';
 import bcrypt from "bcryptjs";
 
@@ -8,7 +8,7 @@ export default async function (req: Request<{}, {}, AuthRegisterPostInputBodyObj
 
 	if (existingUser) return res.status(409).json({
 		success: false,
-		error: 'Пользователь с таким email-адресом уже зарегистрирован.'
+		error: 'Пользователь с таким email-адресом уже существует.'
 	});
 
 	const hashedPass = await bcrypt.hash(req.body.password, 12);

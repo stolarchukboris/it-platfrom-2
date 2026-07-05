@@ -1,17 +1,15 @@
 import type { Response } from "express";
 import app from "../../index.js";
-import type { EmployeesGetOutputObjectDto, EmployeesPatchController, EmployeesPatchInputBodyObjectDto } from "../../types/zod/employees.js";
+import type { EmployeesGetOutputObjectDto, EmployeesPatchIdRequest, EmployeesPatchIdInputBodyObjectDto } from "../../schemas/employees.js";
 
-type EmployeesPatchReq = Parameters<EmployeesPatchController>[0];
-
-export default async function (req: EmployeesPatchReq, res: Response) {
+export default async function (req: EmployeesPatchIdRequest, res: Response) {
 	const existingEmployee = await app.database<EmployeesGetOutputObjectDto>('employees')
 		.select('*')
 		.where('id', req.params.id)
 		.first();
 
 	if (!existingEmployee) {
-		res.status(404).json({ success: false, error: 'Сотрудник не найден.' });
+		res.status(404).json({ success: false, error: `Сотрудник ${req.params.id} не найден.` });
 		return;
 	}
 
@@ -24,16 +22,16 @@ export default async function (req: EmployeesPatchReq, res: Response) {
 	}
 
 	if (!hasChanges(existingEmployee, req.body)) {
-		res.status(200).json({ message: 'Изменений не обнаружено.', data: existingEmployee });
+		res.status(200).json({ message: `Изменений в данных сотрудника ${req.params.id} не обнаружено.`, data: existingEmployee });
 		return;
 	}
 
-	await app.database<EmployeesPatchInputBodyObjectDto>('employees').update(req.body).where('id', req.params.id);
+	await app.database<EmployeesPatchIdInputBodyObjectDto>('employees').update(req.body).where('id', req.params.id);
 
 	const employee = await app.database<EmployeesGetOutputObjectDto>('employees')
 		.select('*')
 		.where('id', req.params.id)
 		.first();
 
-	res.status(200).json({ message: 'Сотрудник обновлен.', data: employee });
+	res.status(200).json({ message: `Сотрудник ${req.params.id} обновлен.`, data: employee });
 }
