@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction, RequestHandler } from 'express';
 import { z, ZodObject } from 'zod';
 
-export interface RequestValidationSchemas {
+interface RequestValidationSchemas {
 	body?: ZodObject;
 	query?: ZodObject;
 	params?: ZodObject;

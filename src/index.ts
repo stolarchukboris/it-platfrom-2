@@ -3,8 +3,10 @@ import knex, { type Knex } from 'knex';
 import employeesRoute from './routes/employees.js';
 import authRoute from './routes/auth.js';
 import tasksRoute from './routes/tasks.js';
+import reviewsRoute from './routes/reviews.js';
 import errorHandler from './middleware/errorHandler.js';
 import dotenv from 'dotenv';
+import checkAuth from './middleware/checkAuth.js';
 
 class App {
 	readonly database: Knex;
@@ -38,9 +40,13 @@ class App {
 
 		this.app.use(express.json());
 
-		this.app.use('/employees', employeesRoute);
 		this.app.use('/auth', authRoute);
+
+		this.app.use(checkAuth);
+
+		this.app.use('/employees', employeesRoute);
 		this.app.use('/tasks', tasksRoute);
+		this.app.use('/reviews', reviewsRoute);
 
 		this.app.use(errorHandler);
 

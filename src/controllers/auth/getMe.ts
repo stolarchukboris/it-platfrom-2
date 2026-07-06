@@ -3,11 +3,9 @@ import type { AuthMeGetOutputObjectDto } from "../../schemas/auth.js";
 import app from '../../index.js';
 
 export default async function (req: Request, res: Response) {
-	if (!req.user) return res.status(401).json({ success: false, error: 'Пользователь не аутентифицирован' });
-
 	const dbEntry = await app.database<AuthMeGetOutputObjectDto>('users')
 		.select('*')
-		.where('email', req.user.email)
+		.where('email', req.user!.email)
 		.first();
 
 	if (!dbEntry) return res.status(404).json({ success: false, error: 'Пользователь не найден.' });

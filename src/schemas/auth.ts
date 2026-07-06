@@ -1,6 +1,6 @@
 import z from "zod";
 import { rolesOrdered } from "../constants.js";
-import { idSchema } from "./common.js";
+import { positiveIntSchema } from "./common.js";
 
 const emailSchema = z.email('Ожидается email-адрес корректного формата.')
 	.trim()
@@ -17,7 +17,7 @@ export const authRegisterPostInputBodyObjectSchema = z.object({
 export type AuthRegisterPostInputBodyObjectDto = z.infer<typeof authRegisterPostInputBodyObjectSchema>;
 
 export const authMeGetOutputObjectSchema = z.object({
-	id: idSchema,
+	id: positiveIntSchema,
 	email: emailSchema,
 	password_hash: z.string(),
 	role: z.enum(rolesOrdered),

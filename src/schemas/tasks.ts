@@ -1,7 +1,7 @@
 import z from "zod";
-import type { RequestValidationSchemas, TypedRequestHandler } from "../types/requestTypes.js";
+import type { TypedRequestHandler } from "../types/requestTypes.js";
 import { priorityLevels, taskStatuses } from "../constants.js";
-import { idSchema } from "./common.js";
+import { positiveIntSchema } from "./common.js";
 
 const titleSchema = z.string('Ожидается строковое значение.')
 	.trim()
@@ -13,9 +13,9 @@ const deadlineSchema = z.coerce.date('Ожидается дата формата
 const prioritySchema = z.enum(priorityLevels, `Ожидается одно из: ${priorityLevels}.`);
 
 export const tasksGetOutputObjectSchema = z.object({
-	id: idSchema,
+	id: positiveIntSchema,
 	title: titleSchema,
-	assignee_id: idSchema,
+	assignee_id: positiveIntSchema,
 	status: statusSchema,
 	deadline: deadlineSchema,
 	priority: prioritySchema,
@@ -26,7 +26,7 @@ export type TasksGetOutputObjectDto = z.infer<typeof tasksGetOutputObjectSchema>
 
 export const tasksGetInputQueryObjectSchema = z.object({
 	status: statusSchema.nullish(),
-	assigneeId: idSchema.nullish()
+	assigneeId: positiveIntSchema.nullish()
 }).strict();
 
 export type TasksGetInputQueryObjectDto = z.infer<typeof tasksGetInputQueryObjectSchema>;
@@ -38,7 +38,7 @@ export const tasksGetInputQueryValidation = {
 export type TasksGetInputQueryRequest = Parameters<TypedRequestHandler<typeof tasksGetInputQueryValidation>>[0];
 
 export const tasksGetIdInputParamsObjectSchema = z.object({
-	id: idSchema
+	id: positiveIntSchema
 });
 
 export const tasksGetIdInputParamsValidation = {
@@ -49,7 +49,7 @@ export type TasksGetIdInputParamsRequest = Parameters<TypedRequestHandler<typeof
 
 export const tasksPostInputBodyObjectSchema = z.object({
 	title: titleSchema,
-	assignee_id: idSchema,
+	assignee_id: positiveIntSchema,
 	status: statusSchema.default('todo'),
 	deadline: deadlineSchema,
 	priority: prioritySchema.default('low')

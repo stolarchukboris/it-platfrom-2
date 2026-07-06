@@ -1,9 +1,9 @@
 import z from "zod";
-import type { RequestValidationSchemas, TypedRequestHandler } from "../types/requestTypes.js";
+import type { TypedRequestHandler } from "../types/requestTypes.js";
 import { employeeStatuses } from "../constants.js";
-import { idSchema } from "./common.js";
+import { buildEnumSchema, positiveIntSchema } from "./common.js";
 
-const employeeStatusEnumSchema = z.enum(employeeStatuses, `Ожидается одно из: ${employeeStatuses}.`);
+const employeeStatusEnumSchema = buildEnumSchema(employeeStatuses);
 const employeeNameSchema = z.string('Ожидается строковый тип.').trim().max(50, 'Предельная длина имени - 50 символов.');
 const employeeRdsScoreSchema = z.int('Ожидается целочисленное значение.')
 	.nonnegative('Ожидается неотрицательное значение.')
@@ -18,7 +18,7 @@ export const employeesPostInputBodyObjectSchema = z.object({
 export type EmployeesPostInputBodyObjectDto = z.infer<typeof employeesPostInputBodyObjectSchema>;
 
 export const employeesGetOutputObjectSchema = z.object({
-	id: idSchema,
+	id: positiveIntSchema,
 	name: employeeNameSchema,
 	status: employeeStatusEnumSchema,
 	readiness_score: employeeRdsScoreSchema,
@@ -35,7 +35,7 @@ export const employeesPatchIdInputBodyObjectSchema = z.object({
 export type EmployeesPatchIdInputBodyObjectDto = z.infer<typeof employeesPatchIdInputBodyObjectSchema>;
 
 export const employeesPatchIdDeleteIdInputParamsObjectSchema = z.object({
-	id: idSchema
+	id: positiveIntSchema
 });
 
 export const employeesPatchIdValidation = {
