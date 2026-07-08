@@ -9,7 +9,6 @@
 		"outDir": "./build",
 		"rootDir": "./src",
 		"sourceMap": true,
-		"declaration": true,
 		"strict": true,
 		"noUncheckedIndexedAccess": true,
 		"noFallthroughCasesInSwitch": true,
@@ -20,7 +19,5 @@
 		"esModuleInterop": true,
 		"erasableSyntaxOnly": true
 	},
-	"include": [
-		"src/**/*.ts"
-	]
+	"include": ["src"]
 }
