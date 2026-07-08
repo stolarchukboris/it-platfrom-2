@@ -1,7 +1,7 @@
 import z from "zod";
-import type { TypedRequestHandler } from "../types/requestTypes.js";
 import { priorityLevels, taskStatuses } from "../constants.js";
-import { positiveIntSchema } from "./common.js";
+import { idInputParamSchema, positiveIntSchema } from "./common.js";
+import type { TypedRequest } from "../types/requestTypes.js";
 
 const titleSchema = z.string('Ожидается строковое значение.')
 	.trim()
@@ -24,41 +24,31 @@ export const tasksGetOutputObjectSchema = z.object({
 
 export type TasksGetOutputObjectDto = z.infer<typeof tasksGetOutputObjectSchema>;
 
-export const tasksGetInputQueryObjectSchema = z.object({
+const tasksGetInputQueryObjectSchema = tasksGetOutputObjectSchema.pick({ 'status': true, 'assignee_id': true }).extend({
 	status: statusSchema.nullish(),
-	assigneeId: positiveIntSchema.nullish()
+	assignee_id: positiveIntSchema.nullish()
 }).strict();
-
-export type TasksGetInputQueryObjectDto = z.infer<typeof tasksGetInputQueryObjectSchema>;
 
 export const tasksGetInputQueryValidation = {
 	query: tasksGetInputQueryObjectSchema
 }
 
-export type TasksGetInputQueryRequest = Parameters<TypedRequestHandler<typeof tasksGetInputQueryValidation>>[0];
-
-export const tasksGetIdInputParamsObjectSchema = z.object({
-	id: positiveIntSchema
-});
+export type TasksGetInputQueryRequest = TypedRequest<typeof tasksGetInputQueryValidation>;
 
 export const tasksGetIdInputParamsValidation = {
-	params: tasksGetIdInputParamsObjectSchema
+	params: idInputParamSchema
 }
 
-export type TasksGetIdInputParamsRequest = Parameters<TypedRequestHandler<typeof tasksGetIdInputParamsValidation>>[0];
+export type TasksGetIdInputParamsRequest = TypedRequest<typeof tasksGetIdInputParamsValidation>;
 
-export const tasksPostInputBodyObjectSchema = z.object({
-	title: titleSchema,
-	assignee_id: positiveIntSchema,
+export const tasksPostInputBodyObjectSchema = tasksGetOutputObjectSchema.omit({ 'id': true, 'created_at': true }).extend({
 	status: statusSchema.default('todo'),
-	deadline: deadlineSchema,
 	priority: prioritySchema.default('low')
 });
 
 export type tasksPostInputBodyObjectDto = z.infer<typeof tasksPostInputBodyObjectSchema>;
 
-export const tasksPatchIdInputParamsObjectSchema = tasksGetIdInputParamsObjectSchema;
-export const tasksPatchIdInputBodyObjectSchema = z.object({
+const tasksPatchIdInputBodyObjectSchema = tasksGetOutputObjectSchema.pick({ 'status': true, 'priority': true }).extend({
 	status: statusSchema.nullish(),
 	priority: prioritySchema.nullish()
 }).refine(obj => Object.keys(obj).length > 0, 'Тело запроса не может быть пустым.');
@@ -66,15 +56,14 @@ export const tasksPatchIdInputBodyObjectSchema = z.object({
 export type TasksPatchIdInputBodyObjectDto = z.infer<typeof tasksPatchIdInputBodyObjectSchema>;
 
 export const tasksPatchIdInputValidation = {
-	params: tasksPatchIdInputParamsObjectSchema,
+	params: idInputParamSchema,
 	body: tasksPatchIdInputBodyObjectSchema
 }
 
-export type tasksPatchIdRequest = Parameters<TypedRequestHandler<typeof tasksPatchIdInputValidation>>[0];
+export type tasksPatchIdRequest = TypedRequest<typeof tasksPatchIdInputValidation>;
 
-export const tasksDeleteIdInputParamsObjectSchema = tasksGetIdInputParamsObjectSchema;
 export const tasksDeleteIdInputValidation = {
-	params: tasksDeleteIdInputParamsObjectSchema
+	params: idInputParamSchema
 }
 
-export type TasksDeleteIdRequest = Parameters<TypedRequestHandler<typeof tasksDeleteIdInputValidation>>[0];
+export type TasksDeleteIdRequest = TypedRequest<typeof tasksDeleteIdInputValidation>;

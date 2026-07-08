@@ -7,7 +7,7 @@ export default async function (req: TasksGetInputQueryRequest, res: Response) {
 
 	const query = app.database<TasksGetOutputObjectDto>('tasks');
 
-	req.query.assigneeId ? query.where('assignee_id', req.query.assigneeId) : selectFields.push('assignee_id');
+	req.query.assignee_id ? query.where('assignee_id', req.query.assignee_id) : selectFields.push('assignee_id');
 	req.query.status ? query.where('status', req.query.status) : selectFields.push('status');
 
 	const tasks = await query.select(selectFields);

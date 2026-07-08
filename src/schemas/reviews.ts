@@ -1,6 +1,7 @@
 import z from "zod";
-import { buildEnumSchema, positiveIntSchema } from "./common.js";
+import { buildEnumSchema, idInputParamSchema, positiveIntSchema } from "./common.js";
 import { reviewResults } from "../constants.js";
+import type { TypedRequest } from "../types/requestTypes.js";
 
 const gradeSchema = positiveIntSchema.max(5, 'Максимальная оценка - 5 баллов.');
 const feedbackSchema = z.string('Ожидается строковый тип').trim().max(65535, 'Максимальная длина отзыва - 65535 символов.').nullish();
@@ -30,3 +31,9 @@ export type ReviewsPostInputObjectDto = z.infer<typeof reviewsPostInputObjectSch
 export const reviewsPostInputBodyObjectSchema = reviewsPostInputObjectSchema.omit({ 'mentor_id': true });
 
 export type ReviewsPostInputBodyObjectDto = z.infer<typeof reviewsPostInputBodyObjectSchema>;
+
+export const reviewsGetIdInputParamsValidation = {
+	params: idInputParamSchema
+}
+
+export type ReviewsGetIdRequest = TypedRequest<typeof reviewsGetIdInputParamsValidation>;
